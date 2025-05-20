@@ -1,6 +1,8 @@
 package planeat.util;
 
 import lombok.RequiredArgsConstructor;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -43,7 +45,15 @@ public class KakaoMapClient implements PlaceSearchClient {
         }
 
         JSONObject result = search(keyword, lat, lon, 2000); // ✅ 이 메서드 정의가 필요해!
-        return result.getJSONArray("documents").getJSONObject(0); // 첫 번째 장소 반환
+        JSONArray documents = result.getJSONArray("documents");
+        if (documents.isEmpty()) {
+            JSONObject empty = new JSONObject();
+            empty.put("place_name", "추천 결과 없음");
+            empty.put("address_name", "해당 위치에 적합한 장소가 없습니다.");
+            empty.put("category_group_name", "없음");
+            return empty;
+        }
+        return documents.getJSONObject(0);
     }
 
     public JSONObject search(String keyword, double lat, double lon, int radius) {
