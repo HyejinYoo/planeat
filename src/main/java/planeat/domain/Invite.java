@@ -1,7 +1,8 @@
-package planeat.dto;
+package planeat.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,16 +11,16 @@ import java.util.List;
 public class Invite {
     private String inviteCode;
     private int targetCount;
-    private List<StepInfo> steps;  // 초대 시 정해진 루트
-    private List<InviteParticipantResponse> responses = new ArrayList<>();
+    private List<StepType> steps;  
+    private List<InviteParticipant> responses = new ArrayList<>();
 
-    public Invite(String inviteCode, int targetCount, List<StepInfo> steps) {
+    public Invite(String inviteCode, int targetCount, List<StepType> steps) {
         this.inviteCode = inviteCode;
         this.targetCount = targetCount;
         this.steps = steps;
     }
 
-    public void addResponse(InviteParticipantResponse response) {
+    public void addResponse(InviteParticipant response) {
         responses.add(response);
     }
 

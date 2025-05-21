@@ -1,7 +1,8 @@
-package planeat.dto;
+package planeat.dto.invite;
 
 import lombok.Getter;
 import lombok.Setter;
+import planeat.domain.StepType;
 
 import java.util.List;
 
@@ -9,5 +10,5 @@ import java.util.List;
 @Setter
 public class InviteCreateRequest {
     private int participantCount;
-    private List<StepInfo> steps;  // 방장이 정하는 루트 순서
+    private List<StepType> steps;  // 방장이 정하는 루트 순서
 }

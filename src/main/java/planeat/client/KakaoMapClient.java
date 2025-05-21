@@ -1,17 +1,13 @@
-package planeat.util;
+package planeat.client;
 
 import lombok.RequiredArgsConstructor;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.http.*;
-
-import planeat.client.PlaceSearchClient;
-import planeat.dto.StepPreference;
 
 @Component
 @RequiredArgsConstructor
@@ -20,32 +16,13 @@ public class KakaoMapClient implements PlaceSearchClient {
     @Value("${kakao.rest-api-key}")
     private String kakaoApiKey;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     @Override
-    public JSONObject searchByStep(StepPreference step, double lat, double lon) {
-        String keyword;
-
-        switch (step.getType()) {
-            case "meal":
-            case "dessert":
-                keyword = step.getFoodType() != null ? step.getFoodType() : "음식점";
-                break;
-            case "walk":
-                keyword = "산책로";
-                break;
-            case "activity":
-                keyword = step.getSubtype() != null ? step.getSubtype() : "놀거리";
-                break;
-            case "viewpoint":
-                keyword = step.getMood() != null ? step.getMood() + " 야경" : "야경 명소";
-                break;
-            default:
-                keyword = "장소";
-        }
-
-        JSONObject result = search(keyword, lat, lon, 2000); // ✅ 이 메서드 정의가 필요해!
+    public JSONObject searchByKeyword(String keyword, double lat, double lon) {
+        JSONObject result = search(keyword, lat, lon, 2000);
         JSONArray documents = result.getJSONArray("documents");
+
         if (documents.isEmpty()) {
             JSONObject empty = new JSONObject();
             empty.put("place_name", "추천 결과 없음");
@@ -53,6 +30,7 @@ public class KakaoMapClient implements PlaceSearchClient {
             empty.put("category_group_name", "없음");
             return empty;
         }
+
         return documents.getJSONObject(0);
     }
 
