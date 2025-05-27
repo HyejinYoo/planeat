@@ -1,9 +1,12 @@
-![PlanEat 로고](./frontend/src/assets/planeat-logo.png)
+<p>
+  <img src="./frontend/src/assets/planeat-logo.png" width="300" />
+</p>
 
 # PlanEat
 
-친구들과의 약속, 어디서 만날지 고민될 땐 PlanEat!
+친구들과의 약속, 어디서 만날지 고민될 땐 PlanEat! <br>
 참여자들의 위치와 취향 키워드를 바탕으로 모두가 만족할 수 있는 중간 지점을 찾아드려요.
+
 <br>
 
 ## ✨ 주요 기능
