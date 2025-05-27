@@ -8,7 +8,9 @@ import planeat.dto.invite.InviteCreateRequest;
 import planeat.dto.invite.InviteResponseRequest;
 import planeat.service.InviteService;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/invite")
@@ -23,18 +25,28 @@ public class InviteController {
     }
 
     @PostMapping("/{inviteCode}/respond")
-    public ResponseEntity<String> submitResponse(@PathVariable String inviteCode,
+    public ResponseEntity<String> submitResponse(@PathVariable("inviteCode") String inviteCode,
                                                  @RequestBody InviteResponseRequest request) {
         return inviteService.addResponse(inviteCode, request)
                 ? ResponseEntity.ok("Response submitted")
                 : ResponseEntity.badRequest().body("Invalid invite code");
     }
-
+    
     @GetMapping("/{inviteCode}")
-    public ResponseEntity<Invite> getInvite(@PathVariable String inviteCode) {
-        return inviteService.getInvite(inviteCode)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Map<String, Object>> getInviteDetails(@PathVariable("inviteCode") String inviteCode) {
+        Optional<Invite> inviteOpt = inviteService.getInvite(inviteCode);
+        if (inviteOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Invite invite = inviteOpt.get();
+        Map<String, Object> response = new HashMap<>();
+        response.put("inviteCode", invite.getInviteCode());
+        response.put("targetCount", invite.getTargetCount());
+        response.put("steps", invite.getSteps());
+
+        return ResponseEntity.ok(response);
     }
-} 
+
+}
 

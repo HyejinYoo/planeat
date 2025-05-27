@@ -1,25 +1,26 @@
 package planeat.dto.invite;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import planeat.domain.InviteParticipant;
-import planeat.dto.preference.StepPreference;
+import planeat.domain.StepKeyword;
 
 import java.util.List;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class InviteResponseRequest {
-    private final String name;
-    private final List<StepPreference> steps;
-    private final double latitude;
-    private final double longitude;
+    private String name;
+    private List<StepKeyword> preferences;
+    private double latitude;
+    private double longitude;
 
     public InviteParticipant toDomain() {
         return InviteParticipant.builder()
                 .name(name)
-                .preferences(steps)
+                .preferences(preferences)
                 .latitude(latitude)
                 .longitude(longitude)
                 .build();

@@ -1,16 +1,25 @@
 package planeat.domain;
 
-import lombok.Builder;
-import lombok.Getter;
-import planeat.dto.preference.StepPreference;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Builder
+@Entity
+@Getter @Setter @NoArgsConstructor @AllArgsConstructor @Builder
 public class InviteParticipant {
-    private final String name;
-    private final List<StepPreference> preferences;
-    private final double latitude;
-    private final double longitude;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @ElementCollection
+    private List<StepKeyword> preferences;
+
+    private double latitude;
+    private double longitude;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Invite invite;
 }

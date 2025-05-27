@@ -1,6 +1,10 @@
 package planeat.client;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,20 +23,26 @@ public class KakaoMapClient implements PlaceSearchClient {
     private final RestTemplate restTemplate;
 
     @Override
-    public JSONObject searchByKeyword(String keyword, double lat, double lon) {
+    public List<JSONObject> searchByKeyword(String keyword, double lat, double lon) {
         JSONObject result = search(keyword, lat, lon, 2000);
-        JSONArray documents = result.getJSONArray("documents");
+        JSONArray documents = result.optJSONArray("documents");
 
-        if (documents.isEmpty()) {
+        List<JSONObject> places = new ArrayList<>();
+        if (documents == null || documents.isEmpty()) {
             JSONObject empty = new JSONObject();
             empty.put("place_name", "추천 결과 없음");
             empty.put("address_name", "해당 위치에 적합한 장소가 없습니다.");
             empty.put("category_group_name", "없음");
-            return empty;
+            places.add(empty);
+            return places;
         }
 
-        return documents.getJSONObject(0);
+        for (int i = 0; i < documents.length(); i++) {
+            places.add(documents.getJSONObject(i));
+        }
+        return places;
     }
+
 
     public JSONObject search(String keyword, double lat, double lon, int radius) {
         String url = UriComponentsBuilder.fromHttpUrl("https://dapi.kakao.com/v2/local/search/keyword.json")

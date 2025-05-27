@@ -19,7 +19,7 @@ public class RecommendationController {
     private final RecommendationService recommendationService;
 
     @GetMapping("/{inviteCode}")
-    public ResponseEntity<List<Map<String, Object>>> getRecommendations(@PathVariable String inviteCode) {
+    public ResponseEntity<List<Map<String, Object>>> getRecommendations(@PathVariable("inviteCode") String inviteCode) {
         return inviteService.getInvite(inviteCode)
                 .filter(Invite::isComplete)
                 .map(recommendationService::recommend)

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import planeat.client.PlaceSearchClient;
 import planeat.domain.Invite;
 import planeat.domain.InviteParticipant;
-import planeat.dto.preference.StepPreference;
+import planeat.domain.StepKeyword;
 
 import java.util.*;
 
@@ -19,6 +19,8 @@ public class RecommendationService {
     public List<Map<String, Object>> recommend(Invite invite) {
         List<InviteParticipant> responses = invite.getResponses();
 
+        System.out.println("✅ 응답자 수: " + responses.size());
+        
         double avgLat = responses.stream()
                 .mapToDouble(InviteParticipant::getLatitude)
                 .average()
@@ -31,21 +33,40 @@ public class RecommendationService {
 
         List<Map<String, Object>> placeRecommendations = new ArrayList<>();
 
+        
         for (InviteParticipant participant : responses) {
-            for (StepPreference pref : participant.getPreferences()) {
-                if (pref.getKeywords() == null || pref.getKeywords().isEmpty()) continue;
+        	System.out.println("✅ 답: " + participant.getPreferences());
 
-                for (String keyword : pref.getKeywords()) {
-                    JSONObject place = placeSearchClient.searchByKeyword(keyword, avgLat, avgLon);
+            for (StepKeyword stepKeyword : participant.getPreferences()) {
+            	
+            	List<String> keywords = new ArrayList<>();
+            	if (stepKeyword.getKeyword1() != null && !stepKeyword.getKeyword1().isBlank()) {
+            	    keywords.add(stepKeyword.getKeyword1());
+            	}
+            	if (stepKeyword.getKeyword2() != null && !stepKeyword.getKeyword2().isBlank()) {
+            	    keywords.add(stepKeyword.getKeyword2());
+            	}
+            	if (stepKeyword.getKeyword3() != null && !stepKeyword.getKeyword3().isBlank()) {
+            	    keywords.add(stepKeyword.getKeyword3());
+            	}
 
-                    Map<String, Object> oneResult = new HashMap<>();
-                    oneResult.put("keyword", keyword);
-                    oneResult.put("placeName", place.optString("place_name"));
-                    oneResult.put("address", place.optString("address_name"));
-                    oneResult.put("category", place.optString("category_group_name"));
+            	for (String keyword : keywords) {
+            	    System.out.println("🔍 검색 키워드: " + keyword); // 👉 이 줄 추가!
 
-                    placeRecommendations.add(oneResult);
-                }
+            	    List<JSONObject> places = placeSearchClient.searchByKeyword(keyword, avgLat, avgLon);
+
+            	    for (JSONObject place : places) {
+            	        Map<String, Object> oneResult = new HashMap<>();
+            	        oneResult.put("stepType", stepKeyword.getStepType());
+            	        oneResult.put("keyword", keyword);
+            	        oneResult.put("placeName", place.optString("place_name"));
+            	        oneResult.put("address", place.optString("address_name"));
+            	        oneResult.put("category", place.optString("category_group_name"));
+
+            	        placeRecommendations.add(oneResult);
+            	    }
+            	}
+
             }
         }
 
@@ -54,4 +75,5 @@ public class RecommendationService {
         return List.of(result);
     }
 }
+
 

@@ -1,4 +1,4 @@
-package planeat.dto.preference;
+/*package planeat.dto.preference;
 
 import java.util.List;
 
@@ -12,3 +12,4 @@ public class StepPreference {
     //private final int budget;
     //private final String mood;
 }
+*/
