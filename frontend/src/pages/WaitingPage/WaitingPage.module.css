@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  height: 100vh;
+  background-color: #fffdfd;
+  font-family: 'Pretendard', sans-serif;
+  text-align: center;
+  color: #444;
+}
+
+.title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #ff6f61;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #777;
+  margin-bottom: 2rem;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border: 5px solid #ffe3db;
+  border-top: 5px solid #ff6f61;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-top: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

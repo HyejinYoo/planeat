@@ -1,0 +1,100 @@
+.introContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #fffdfd;
+  font-family: 'Pretendard', sans-serif;
+  text-align: center;
+  padding: 20px;
+}
+
+.introTitle {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.introDescription {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  color: #666;
+}
+
+.introLink {
+  display: inline-block;
+  background-color: #6c63ff;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.introLink:hover {
+  background-color: #574fd6;
+}
+
+.slogan {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 2.5rem;
+  line-height: 1.6;
+}
+
+.sloganSub {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #777;
+}
+
+.logoBox {
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.logoImage {
+  width: 500px; 
+}
+
+.sparkle {
+  font-size: 1.5rem;
+}
+
+.slogan {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ff6f61; 
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.sloganSub {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #ff9e95; 
+}
+
+
+.introLink {
+  display: inline-block;
+  background-color: #ff6f61; 
+  color: white;
+  padding: 12px 24px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 10px rgba(255, 111, 97, 0.2);
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.introLink:hover {
+  background-color: #ff5a4f;
+  transform: translateY(-2px);
+}
+
